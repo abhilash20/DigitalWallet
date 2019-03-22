@@ -1,0 +1,10 @@
+{
+  "name": "DigitalWallet",
+  "version": "0.0.1",
+  "description": "digital wallet application apis",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.19",
+    "morgan": "^1.9.1"
+  }
+}
