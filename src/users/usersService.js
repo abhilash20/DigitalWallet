@@ -16,7 +16,7 @@ function createUser(user) {
                 });
             }
             return resolve({
-                statusCode: 200,
+                statusCode: 201,
                 message: "Successfully created the user",
             });
         });
@@ -40,7 +40,37 @@ function getUser(userId) {
     })
 }
 
+
+
+function updateUser(userBody,userId) {
+    return new Promise((resolve, reject) => {
+        Users.findOneAndUpdate({ username: userId }, userBody,{returnNewDocument : true }, function(err, user) {
+            if (err) {
+                return reject({
+                    statusCode: 500,
+                    message: "problem with updating the user",
+                });
+            }
+            console.log(user);
+            return resolve({
+                statusCode: 200,
+                message: user,
+            });
+        })
+    })
+}
+
+
+
+
+
+
+
+
+
+
 module.exports = {
     createUser,
     getUser,
-}
+    updateUser,
+    }

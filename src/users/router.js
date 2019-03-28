@@ -28,7 +28,19 @@ async function getUser(req, res) {
     }
 }
 
+
+
+async function updateUser(req, res) {
+    return usersService.updateUser(req.body , req.params.userId)
+         .then(function (response){
+             return res.status(response.statusCode).send(response.message);
+         }).catch(function(err) {
+             return res.status(err.statusCode).send(err.message);
+         });
+}
+
 router.post('/', createUser);
 router.get('/:userId', getUser);
+router.put('/:userId',  updateUser);
 
 module.exports = router;
