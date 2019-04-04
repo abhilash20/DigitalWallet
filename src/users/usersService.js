@@ -60,9 +60,9 @@ function updateUser(userBody,userId) {
     })
 }
 
-function login(userBody) {
+function login(username,password) {
     return new Promise((resolve, reject)   =>  {
-        Users.findOne({username:userBody.username} , (err, user) => {
+        Users.findOne({username} , (err, user) => {
             if(err) {
                 return reject({
                     statusCode: 401,
@@ -78,7 +78,7 @@ function login(userBody) {
                 });
             }
 
-            if(user.password !== userBody.password){
+            if(user.password !== password){
                 return reject({
                     statusCode:401,
                     message:"authentication failure",

@@ -41,12 +41,18 @@ async function updateUser(req, res) {
 
 
 async function login(req, res) {
-    if(req.body.username==null || req.body.password==null) {
-        return res.status(401).send("authentication failure");
+    if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') === -1) {
+        return res.status(401).json({ message: 'Missing Authorization Header' });
     }
+
+    // verify auth credentials
+    const base64Credentials =  req.headers.authorization.split(' ')[1];
+    const credentials = Buffer.from(base64Credentials, 'base64').toString('ascii');
+    const [username, password] = credentials.split(':');
+
     try {
 
-        const response = await usersService.login(req.body);
+        const response = await usersService.login(username,password);
         return res.status(response.statusCode).send(response.message);
     } catch(err) {
         return res.status(err.statusCode).send(err.message);
