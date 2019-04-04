@@ -60,7 +60,39 @@ function updateUser(userBody,userId) {
     })
 }
 
+function login(userBody) {
+    return new Promise((resolve, reject)   =>  {
+        Users.findOne({username:userBody.username} , (err, user) => {
+            if(err) {
+                return reject({
+                    statusCode: 401,
+                    message:" error",
+                });
+            }
 
+            if(user==null)
+            {
+                return reject({
+                    statusCode: 401,
+                    message:"username and password did not match",
+                });
+            }
+
+            if(user.password !== userBody.password){
+                return reject({
+                    statusCode:401,
+                    message:"authentication failure",
+                });
+            }
+                return resolve({
+                    statusCode:200,
+                    message:user,
+                });
+
+        })
+    })
+
+}
 
 
 
@@ -73,4 +105,5 @@ module.exports = {
     createUser,
     getUser,
     updateUser,
+    login,
     }

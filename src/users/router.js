@@ -39,8 +39,22 @@ async function updateUser(req, res) {
          });
 }
 
+
+async function login(req, res) {
+    if(req.body.username==null || req.body.password==null) {
+        return res.status(401).send("authentication failure");
+    }
+    try {
+
+        const response = await usersService.login(req.body);
+        return res.status(response.statusCode).send(response.message);
+    } catch(err) {
+        return res.status(err.statusCode).send(err.message);
+    }
+}
+
 router.post('/', createUser);
 router.get('/:userId', getUser);
 router.put('/:userId',  updateUser);
-
+router.post('/login', login);
 module.exports = router;
